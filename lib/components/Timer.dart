@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pomodoro/components/TimerButton.dart';
 
 class Timer extends StatelessWidget {
   const Timer({super.key});
@@ -18,6 +19,14 @@ class Timer extends StatelessWidget {
           Text(
             '25:00',
             style: TextStyle(fontSize: 120, color: Colors.white),
+          ),
+          SizedBox(height: 20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              TimerButton(title: 'Iniciar', icon: Icons.play_arrow),
+              TimerButton(title: 'Parar', icon: Icons.stop)
+            ],
           )
         ],
       ),
