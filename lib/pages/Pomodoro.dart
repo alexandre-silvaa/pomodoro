@@ -18,26 +18,33 @@ class Pomodoro extends StatelessWidget {
         children: [
           const Expanded(child: Timer()),
           Padding(
-              padding: const EdgeInsets.symmetric(vertical: 25),
-              child: Observer(
-                builder: (_) => Row(
+            padding: const EdgeInsets.symmetric(vertical: 25),
+            child: Observer(
+              builder: (_) {
+                final color = store.isWorking() ? Colors.red : Colors.green;
+
+                return Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     TimeEntry(
                       title: 'Trabalho',
                       value: store.workTime,
-                      inc: () => store.incrementTime('work'),
-                      dec: () => store.decrementTime('work'),
+                      color: color,
+                      inc: () => store.incrementTime(TypeInterval.work),
+                      dec: () => store.decrementTime(TypeInterval.work),
                     ),
                     TimeEntry(
                       title: 'Descanso',
-                      value: store.breakTime,
-                      inc: () => store.incrementTime('break'),
-                      dec: () => store.decrementTime('break'),
+                      value: store.restTime,
+                      color: color,
+                      inc: () => store.incrementTime(TypeInterval.rest),
+                      dec: () => store.decrementTime(TypeInterval.rest),
                     )
                   ],
-                ),
-              ))
+                );
+              },
+            ),
+          )
         ],
       ),
     );

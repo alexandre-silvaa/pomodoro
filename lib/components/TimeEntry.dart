@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class TimeEntry extends StatelessWidget {
   final String title;
   final int value;
+  final ColorSwatch color;
   final void Function()? inc;
   final void Function()? dec;
 
@@ -10,6 +11,7 @@ class TimeEntry extends StatelessWidget {
       {super.key,
       required this.title,
       required this.value,
+      required this.color,
       this.inc,
       this.dec});
 
@@ -28,7 +30,7 @@ class TimeEntry extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                   shape: const CircleBorder(),
                   padding: const EdgeInsets.all(15),
-                  backgroundColor: Colors.red),
+                  backgroundColor: color),
               child: const Icon(Icons.arrow_downward, color: Colors.white),
             ),
             Text('$value min'),
@@ -37,7 +39,7 @@ class TimeEntry extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                   shape: const CircleBorder(),
                   padding: const EdgeInsets.all(15),
-                  backgroundColor: Colors.red),
+                  backgroundColor: color),
               child: const Icon(Icons.arrow_upward, color: Colors.white),
             ),
           ],
