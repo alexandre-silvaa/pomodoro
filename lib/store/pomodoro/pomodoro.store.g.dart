@@ -164,6 +164,28 @@ mixin _$PomodoroStore on _PomodoroStore, Store {
   }
 
   @override
+  void _changeInterval() {
+    final _$actionInfo = _$_PomodoroStoreActionController.startAction(
+        name: '_PomodoroStore._changeInterval');
+    try {
+      return super._changeInterval();
+    } finally {
+      _$_PomodoroStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void _decrementTime() {
+    final _$actionInfo = _$_PomodoroStoreActionController.startAction(
+        name: '_PomodoroStore._decrementTime');
+    try {
+      return super._decrementTime();
+    } finally {
+      _$_PomodoroStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 started: ${started},

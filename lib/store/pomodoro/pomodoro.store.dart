@@ -1,6 +1,6 @@
 import 'dart:async';
-
 import 'package:mobx/mobx.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 part 'pomodoro.store.g.dart';
 
@@ -9,6 +9,8 @@ class PomodoroStore = _PomodoroStore with _$PomodoroStore;
 enum TypeInterval { work, rest }
 
 abstract class _PomodoroStore with Store {
+  final player = AudioPlayer();
+
   @observable
   bool started = false;
   @observable
@@ -29,14 +31,11 @@ abstract class _PomodoroStore with Store {
     started = true;
     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (minutes == 0 && seconds == 0) {
+        stop();
+        playAudio();
         _changeInterval();
-      }
-      if (minutes > 0 && seconds == 0) {
-        seconds = 59;
-        minutes--;
-      }
-      if (seconds > 0) {
-        seconds--;
+      } else {
+        _decrementTime();
       }
     });
   }
@@ -82,18 +81,32 @@ abstract class _PomodoroStore with Store {
     return typeInterval == TypeInterval.work;
   }
 
+  @action
   void _changeInterval() {
     seconds = 0;
 
     if (isWorking()) {
       typeInterval = TypeInterval.rest;
       minutes = restTime;
-      return;
-    }
-    if (!isWorking()) {
+    } else {
       typeInterval = TypeInterval.work;
       minutes = workTime;
-      return;
     }
+  }
+
+  @action
+  void _decrementTime() {
+    if (seconds == 0) {
+      if (minutes > 0) {
+        minutes--;
+        seconds = 59;
+      }
+    } else {
+      seconds--;
+    }
+  }
+
+  void playAudio() {
+    player.play(AssetSource('alarm.mp3'));
   }
 }
