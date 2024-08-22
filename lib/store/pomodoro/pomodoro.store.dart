@@ -12,13 +12,13 @@ abstract class _PomodoroStore with Store {
   @observable
   bool started = false;
   @observable
-  int minutes = 2;
+  int minutes = 25;
   @observable
   int seconds = 0;
   @observable
-  int workTime = 2;
+  int workTime = 25;
   @observable
-  int restTime = 1;
+  int restTime = 5;
   @observable
   TypeInterval typeInterval = TypeInterval.work;
 
@@ -27,7 +27,7 @@ abstract class _PomodoroStore with Store {
   @action
   void start() {
     started = true;
-    timer = Timer.periodic(const Duration(milliseconds: 10), (timer) {
+    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (minutes == 0 && seconds == 0) {
         _changeInterval();
       }
@@ -48,15 +48,34 @@ abstract class _PomodoroStore with Store {
   }
 
   @action
+  void restart() {
+    stop();
+    minutes = isWorking() ? workTime : restTime;
+    seconds = 0;
+  }
+
+  @action
   void incrementTime(TypeInterval type) {
-    if (type == TypeInterval.work) workTime++;
-    if (type == TypeInterval.rest) restTime++;
+    if (type == TypeInterval.work) {
+      workTime++;
+      if (isWorking()) restart();
+    }
+    if (type == TypeInterval.rest) {
+      restTime++;
+      if (!isWorking()) restart();
+    }
   }
 
   @action
   void decrementTime(TypeInterval type) {
-    if (type == TypeInterval.work) workTime--;
-    if (type == TypeInterval.rest) restTime--;
+    if (type == TypeInterval.work && workTime > 1) {
+      workTime--;
+      if (isWorking()) restart();
+    }
+    if (type == TypeInterval.rest && restTime > 1) {
+      restTime--;
+      if (!isWorking()) restart();
+    }
   }
 
   bool isWorking() {

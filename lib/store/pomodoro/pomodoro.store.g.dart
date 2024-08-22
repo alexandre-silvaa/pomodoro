@@ -131,6 +131,17 @@ mixin _$PomodoroStore on _PomodoroStore, Store {
   }
 
   @override
+  void restart() {
+    final _$actionInfo = _$_PomodoroStoreActionController.startAction(
+        name: '_PomodoroStore.restart');
+    try {
+      return super.restart();
+    } finally {
+      _$_PomodoroStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void incrementTime(TypeInterval type) {
     final _$actionInfo = _$_PomodoroStoreActionController.startAction(
         name: '_PomodoroStore.incrementTime');

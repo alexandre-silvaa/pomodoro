@@ -49,7 +49,7 @@ class Timer extends StatelessWidget {
                     title: 'Reiniciar',
                     icon: Icons.refresh,
                     color: color,
-                    click: store.stop,
+                    click: store.restart,
                   )
                 ],
               )
